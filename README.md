@@ -72,40 +72,66 @@ In this experiment, we use **SystemVerilog OOP concepts** to model an APB packet
 
 ### APB Packet Class (`apb_packet.sv`)  
 ```systemverilog
-// Skeleton code for APB Packet class
-class apb_packet;
+module apb_packet_demo;
 
-  // Declare properties (e.g., address, data, control signals)
+  // Base class: APB Packet
+  class APB_Packet;
+    rand bit [31:0] addr;   // Address
+    rand bit [31:0] data;   // Data
+    rand bit        wr;     // Write(1)/Read(0)
+    string resp;            // Response
 
-  // Constructor
+    // Constructor
+    function new(bit [31:0] addr = 0, bit [31:0] data = 0, bit wr = 0);
+      this.addr = addr;
+      this.data = data;
+      this.wr   = wr;
+      this.resp = "OK";
+    endfunction
+// Display method
+    function void display();
+      $display("APB Packet => Addr: %h, Data: %h, WR: %0b, Resp: %s", 
+                addr, data, wr, resp);
+    endfunction
+  endclass
 
-  // Method to display packet
-endclass
+  // Derived class: Write Packet
+  class APB_WritePacket extends APB_Packet;
+    function new(bit [31:0] addr, bit [31:0] data);
+      super.new(addr, data, 1); // Write = 1
+    endfunction
+  endclass
+
+// Derived class: Read Packet
+
+  class APB_ReadPacket extends APB_Packet;
+    function new(bit [31:0] addr);
+      super.new(addr, 0, 0); // Write = 0
+    endfunction
+  endclass
 ```
 
 ### APB Packet Class (`apb_tb.sv`) 
 ```systemverilog
-// Skeleton code for APB Packet Testbench
-module apb_tb;
-
-  // Declare object of apb_packet class
-
+// Test program
   initial begin
-    // Create object
-    // Initialize values
-    // Call display method
+    APB_Packet p; // Base class handle
+
+    // Reuse object for Write Packet
+    p = new APB_WritePacket(32'h1000, 32'hABCD1234);
+    p.display();
+
+    // Reuse same object for Read Packet
+    p = new APB_ReadPacket(32'h2000);
+    p.display();
   end
 
 endmodule
 ```
 ---
 ### Simulation Output
+![WhatsApp Image 2025-09-16 at 09 44 59_1de6c6b7](https://github.com/user-attachments/assets/9afa037b-bf0c-4335-a0da-88cbbea5632c)
 
-The simulation is carried out using ModelSim 2020.1.
-
-Output log will show the APB packet details created using class objects.
-
-(Insert console output screenshot here after simulation)
 
 ---
 
