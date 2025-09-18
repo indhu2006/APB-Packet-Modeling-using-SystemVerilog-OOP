@@ -130,7 +130,8 @@ endmodule
 ```
 ---
 ### Simulation Output
-![WhatsApp Image 2025-09-16 at 09 44 59_1de6c6b7](https://github.com/user-attachments/assets/9afa037b-bf0c-4335-a0da-88cbbea5632c)
+![WhatsApp Image 2025-09-18 at 13 34 27_754cdef9](https://github.com/user-attachments/assets/ff20b51d-6643-42b5-b1c7-4c9fd921d216)
+
 
 
 ---
